@@ -42,7 +42,7 @@ public class LoginQuery implements IQuery{
 					+TABLE.MEMBER+" m,"+TABLE.BANK+" b"
 					+" "
 					+DML.WHERE
-					+" m.id LIKE ? AND m.pass LIKE ?");
+					+" m.id LIKE ? AND m.pass LIKE ? AND m.id LIKE b.id");
 			System.out.println("이닛 데이터"+InitCommand.cmd.getData());
 			String[] arr = InitCommand.cmd.getData().split("/");
 			for(int i = 0; i < arr.length; i++) {
@@ -79,8 +79,8 @@ public class LoginQuery implements IQuery{
 				member.setSsn("T");
 /*				member.setPhone(rs.getString(MemberEnum.PHONE.toString()));
 				member.setProfile(rs.getString(MemberEnum.PROFILE.toString()));
-				member.setSsn(rs.getString(MemberEnum.SSN.toString()));
-*/				account.setAccountNum(rs.getString(AccountProps.ACCOUNT_NUM.toString()));
+				member.setSsn(rs.getString(MemberEnum.SSN.toString()));*/
+				account.setAccountNum(rs.getString(AccountProps.ACCOUNT_NUM.toString()));
 				account.setCustomerNum(rs.getString(AccountProps.CUSTOMER_NUM.toString()));
 				account.setMoney(rs.getString(AccountProps.MONEY.toString()));
 				System.out.println(account);

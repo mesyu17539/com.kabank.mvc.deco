@@ -107,10 +107,7 @@ public class MemberController extends HttpServlet {
 			break;
 		case JOIN:
 			System.out.println("=========Member: JOIN=============");
-			bean=new MemberBean();
-			bean.setId(request.getParameter("id"));
-			bean.setPass(request.getParameter("pass"));
-			MemberBean member=service.findById(bean);
+			MemberBean member=service.findById();
 /*			MemberBean member=new MemberServiceImpl().findById(bean);
 */			if(member!=null) {
 				/*dir=request.getParameter("page");*/
@@ -144,16 +141,17 @@ public class MemberController extends HttpServlet {
 		case LOGIN:
 			System.out.println("=========Member: Login IN=============");
 			new SearchCommand(request).execute();
-			MemberBean memr=MemberServiceImpl.getInstance().login();
-			System.out.println("\n===============맴버==================\n");
+			MemberBean memr=MemberServiceImpl.getInstance().findById();
+			System.out.println("\n===============맴버==================\n"+memr);
 			if(memr==null) {
 				System.out.println("login 널로 왔다");
 				session.invalidate();//세션 삭제
 				InitCommand.cmd.setDir("user");
 				InitCommand.cmd.setPage("login");
 			}else {
-				System.out.println("회원정보"+memr);
-				System.out.println("계좌"+memr.getAccount());
+				if(MemberServiceImpl.getInstance().login()!=null) {
+					memr=MemberServiceImpl.getInstance().login();
+				}
 				System.out.println("login 세션 셋\n acount");
 				session.setAttribute("user", memr);
 				InitCommand.cmd.setDir("bitcamp");

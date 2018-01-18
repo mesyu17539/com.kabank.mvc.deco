@@ -25,7 +25,9 @@ public class AdminDAOImpl implements AdminDAO{
 				str=DDLENUM.CREATE_TABLE_BANK.toString();
 			}else if(tname.equalsIgnoreCase("MEMBER")) {
 				str=DDLENUM.CREATE_TABLE_MEMBER.toString();
-			}
+			}else if(tname.equalsIgnoreCase("TELECOM")) {
+			str=DDLENUM.CREATE_TABLE_TELECOM.toString();
+		}
 			
 			DatabaseFactory.create(Vendor.ORACLE)
 			.getConnection()

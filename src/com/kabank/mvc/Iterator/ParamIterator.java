@@ -13,8 +13,11 @@ public class ParamIterator {
 	public static Map<?,?> execute(HttpServletRequest request){
 		Map<String,String> result=new HashMap<>();
 		Map<String,String[]> map=request.getParameterMap();
-		Set<Entry<String, String[]>> set=map.entrySet();//맵에 있는 것을 셋에 옮겨 담았다. 왜냐하면 while 돌려야 내용물을 보는데 맵으로는 안되니까 셋에 담은 것.
-		Iterator<Map.Entry<String, String[]>> it= set.iterator();//이터레이터는 셋에서 돌아다니며 찾아간 값은 표시를 해놓고 다시 찾아가지 않는다.
+		//맵에 있는 것을 셋에 옮겨 담았다.
+		//왜냐하면 while 돌려야 내용물을 보는데 맵으로는 안되니까 셋에 담은 것.
+		Set<Entry<String, String[]>> set=map.entrySet();
+		//이터레이터는 셋에서 돌아다니며 찾아간 값은 표시를 해놓고 다시 찾아가지 않는다.
+		Iterator<Map.Entry<String, String[]>> it= set.iterator();
 		String params[]=new String[set.size()];
 		int i=0;
 		while(it.hasNext()) {

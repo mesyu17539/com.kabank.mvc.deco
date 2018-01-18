@@ -34,6 +34,19 @@ public enum DDLENUM {
 					+")";
 		}
 	},
+	CREATE_TABLE_TELECOM(){
+		@Override
+		public String toString() {
+			return "create table TELECOM(" + 
+					"userid varchar2(20)," + 
+					"phone varchar2(20)," + 
+					"regdate date," + 
+					"customer_Num varchar2(20) primary key," + 
+					"telecom varchar2(20)," + 
+					"foreign key(userid) references member(id) on delete cascade)"
+					;
+		}
+	},
 	CREATE_TABLE_RULE(){
 		@Override
 		public String toString() {

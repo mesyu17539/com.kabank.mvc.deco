@@ -145,7 +145,7 @@ public class MemberDAOImpl implements MemberDAO{
 			}*/
 	}
 
-	public MemberBean selectMemberById(MemberBean bean) {
+	public MemberBean selectMemberById() {
 		System.out.println("DAOIMPL 진입");
 		MemberBean bea=null;
 		try {
@@ -156,7 +156,7 @@ public class MemberDAOImpl implements MemberDAO{
 					String.format(new StringBuffer(DMLENUM.SELECT.toString()).insert(7, Enums.getEnu().toString())
 							+Enums.TABLE.MEMBER.toString()
 							+DMLENUM.WHERE.toString()
-							,bean.getId(),bean.getPass()));
+							,InitCommand.cmd.getData().split("/")[0],InitCommand.cmd.getData().split("/")[1]));
 			while(rs.next()) {
 				bea=new MemberBean();
 				System.out.println("id 받은 값 : "+rs.getString("id"));

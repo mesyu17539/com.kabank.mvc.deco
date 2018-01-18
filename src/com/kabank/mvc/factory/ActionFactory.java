@@ -20,6 +20,8 @@ public class ActionFactory {
 			action=Action.LEAVE;break;
 		case "createanum":
 			action=Action.CREATEANUM;break;
+		case "TELECOM":
+			action=Action.TELECOM;break;
 		default:
 			action=Action.MOVE;break;
 		}

@@ -15,10 +15,10 @@ public class MemberServiceImpl implements MemberService{
 	}
 	private MemberServiceImpl() {}
 	@Override
-	public MemberBean findById(MemberBean bean) {
+	public MemberBean findById() {
 		System.out.println("ServiceIMPL 진입");
-		System.out.println(MemberDAOImpl.getInstance().selectMemberById(bean));
-		return MemberDAOImpl.getInstance().login();
+		System.out.println(MemberDAOImpl.getInstance().selectMemberById());
+		return MemberDAOImpl.getInstance().selectMemberById();
 		
 		/*for(int i=0;i<mbean.size();i++) {
 			if(bean.getId().equals(mbean.get(i).getId())) {

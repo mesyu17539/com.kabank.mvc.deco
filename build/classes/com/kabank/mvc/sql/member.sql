@@ -14,13 +14,13 @@ drop sequence customer_Num;
 INSERT INTO BANK(customer_Num,account_Num,money,id) VALUES(customer_Num.nextval,'2234-1234','1','sangwoo')
 INSERT INTO BANK(customer_Num,id) VALUES(customer_Num.nextval,'sangwoo')
 
-select * from tab;
-select * from bank;
-select * from MEMBER;
-
 toad 전용
 desc member;
 desc bank;
+
+select * from tab;
+select * from bank;
+select * from MEMBER;
 
 관계대수 릴레이션 알고리즘이다
 select 
@@ -40,6 +40,21 @@ order by b.customer_Num desc;
 역순
 order by b.customer_Num asc;
 오름차순 디폴트
+
+수정편
+SELECT 
+    b.customer_Num as customer_Num,
+	m.id as id,
+	m.pass as pass,
+	m.name as name,
+	m.phone as phone,
+	m.email as email,
+	m.profile as profile,
+	m.addr as addr,
+	b.account_Num as account_Num,
+	b.money as money 
+FROM MEMBER m,BANK b 
+WHERE m.id LIKE 'sangwoo' AND m.pass LIKE 12 AND m.id LIKE b.id;
 
 INSERT INTO BANK(customer_Num,account_Num,money,id) VALUES('자동증가','랜덤','0','sangwoo');
 select account_Num from BANK where account_Num=121;

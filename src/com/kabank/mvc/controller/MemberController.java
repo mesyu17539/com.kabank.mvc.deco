@@ -52,17 +52,14 @@ public class MemberController extends HttpServlet {
 		switch(InitCommand.cmd.getAction()) {
 		case MEMJOIN:
 			System.out.println("==========Member: MEMJOIN============");
-			new JoinCommand(request).execute();
-			MemberServiceImpl.getInstance().memjoin();
-			new MoveCommand(request).execute();
+			join(request);
 			System.out.println("==========Member: MEMJOIN OUT============");
-			DispatcherServlet.send(request, response);
+			move(request, response);
 			break;
 		case LEAVE:
 			System.out.println("==========Member: LEAVE============");
 			System.out.println("세션"+session.getAttribute("user"));
-			new LeaveCommand(request).execute();;
-			MemberServiceImpl.getInstance().leave();
+			remove(request);
 			/*MemberServiceImpl.getInstance().leave((MemberBean)session.getAttribute("user"));*/
 			session.invalidate();//세션 삭제
 			move(request, response);
@@ -81,15 +78,9 @@ public class MemberController extends HttpServlet {
 			/*String newpass=request.getParameter("newpass1");*/
 			/*System.out.println("컨트롤 아이디 "+m.getId()+" 비번 "+m.getPass()+" 새로운 비번 "+newpass);*/
 			System.out.println("=========CANGE: Login IN=============");
-			bean=new MemberBean();
-			bean.setId(((MemberBean) session.getAttribute("user")).getId());
-			new SearchSessionCommand(request).execute();
-			MemberServiceImpl.getInstance().chage(bean);
-			bean.setPass(InitCommand.cmd.getData().split("/")[2]);
-			session.setAttribute("user", bean);
-			new MoveCommand(request).execute();
-			System.out.println(InitCommand.cmd.getView());
+			change(request, session);
 			System.out.println("=========CANGE: Login OUT=============");
+			move(request, response);
 /*			System.out.println("=========CANGE: Login IN=============");
 			MemberBean m=(MemberBean) session.getAttribute("user");
 			new SearchSessionCommand(request).execute();
@@ -98,70 +89,16 @@ public class MemberController extends HttpServlet {
 			m.setPass(InitCommand.cmd.getData().split("/")[2]);
 			System.out.println(InitCommand.cmd.getView());
 			System.out.println("=========CANGE: Login OUT=============");
+			DispatcherServlet.send(request, response);
 */			/*쿼리문
 			 * UPDATE MEMBER SET pass='23' where id LIKE '23' AND pass LIKE '32';
 			 * select * from MEMBER;
 			 * UPDATE MEMBER SET pass='32' where id LIKE '23' AND pass LIKE '23';
 			 * */
-			DispatcherServlet.send(request, response);
-			break;
-		case JOIN:
-			System.out.println("=========Member: JOIN=============");
-			MemberBean member=service.findById();
-/*			MemberBean member=new MemberServiceImpl().findById(bean);
-*/			if(member!=null) {
-				/*dir=request.getParameter("page");*/
-				path="main";
-				/*request.setAttribute("user", member);//일회용*/
-				session.setAttribute("user", member);//브라우져
-			}else {
-				path="login";
-			}
-			System.out.println("=========Member: JOIN=============");
-			break;
-		case ADD:
-			System.out.println("=========Member: ADD=============");
-			System.out.println("컨트롤진입");
-			/*dir="user";*/
-			path="login";
-			bean=new MemberBean();
-			bean.setAddr(request.getParameter("addr"));
-			bean.setSsn(request.getParameter("ssn1").concat(request.getParameter("ssn2")));
-			bean.setEmail(request.getParameter("email"));
-			bean.setId(request.getParameter("id"));
-			bean.setName(request.getParameter("name"));
-			bean.setPass(request.getParameter("pass"));
-			bean.setPhone(request.getParameter("phone1").concat("-").concat(request.getParameter("phone2")).concat("-").concat(request.getParameter("phone3")));
-			bean.setEmail(request.getParameter("email").concat(request.getParameter("url")));
-			bean.setAddr(request.getParameter("addr"));
-			System.out.println("====================================================빈"+bean);
-			service.join(bean);
-			System.out.println("ADD OUT");
 			break;
 		case LOGIN:
 			System.out.println("=========Member: Login IN=============");
-			new SearchCommand(request).execute();
-			MemberBean memr=MemberServiceImpl.getInstance().findById();
-			System.out.println("\n===============맴버==================\n"+memr);
-			if(memr==null) {
-				System.out.println("login 널로 왔다");
-				session.invalidate();//세션 삭제
-				InitCommand.cmd.setDir("user");
-				InitCommand.cmd.setPage("login");
-			}else {
-				if(MemberServiceImpl.getInstance().login()!=null) {
-					memr=MemberServiceImpl.getInstance().login();
-				}
-				System.out.println("login 세션 셋\n acount");
-				session.setAttribute("user", memr);
-				InitCommand.cmd.setDir("bitcamp");
-				InitCommand.cmd.setPage("main");
-			}
-			new MoveCommand(request).execute();
-			System.out.println(InitCommand.cmd.getView());
-			System.out.println("=========Member: Login OUT=============");
-			DispatcherServlet.send(request, response);
-			
+			login(request, response, session);
 			/*String id=request.getParameter("id");
 			String pass=request.getParameter("pass");
 			String dir=request.getParameter("dir");
@@ -184,6 +121,39 @@ public class MemberController extends HttpServlet {
 				DispatcherServlet.send(request, response);
 			}*/
 			break;
+			/*case JOIN:
+			System.out.println("=========Member: JOIN=============");
+			MemberBean member=service.findById();
+			MemberBean member=new MemberServiceImpl().findById(bean);
+			if(member!=null) {
+				dir=request.getParameter("page");
+				path="main";
+				request.setAttribute("user", member);//일회용
+				session.setAttribute("user", member);//브라우져
+			}else {
+				path="login";
+			}
+			System.out.println("=========Member: JOIN=============");
+			break;*/
+		/*case ADD:
+			System.out.println("=========Member: ADD=============");
+			System.out.println("컨트롤진입");
+			dir="user";
+			path="login";
+			bean=new MemberBean();
+			bean.setAddr(request.getParameter("addr"));
+			bean.setSsn(request.getParameter("ssn1").concat(request.getParameter("ssn2")));
+			bean.setEmail(request.getParameter("email"));
+			bean.setId(request.getParameter("id"));
+			bean.setName(request.getParameter("name"));
+			bean.setPass(request.getParameter("pass"));
+			bean.setPhone(request.getParameter("phone1").concat("-").concat(request.getParameter("phone2")).concat("-").concat(request.getParameter("phone3")));
+			bean.setEmail(request.getParameter("email").concat(request.getParameter("url")));
+			bean.setAddr(request.getParameter("addr"));
+			System.out.println("====================================================빈"+bean);
+			service.join(bean);
+			System.out.println("ADD OUT");
+			break;*/
 		default:
 			/*dir="user";*/
 			path="login";
@@ -194,9 +164,59 @@ public class MemberController extends HttpServlet {
 	}
 
 
+	private void login(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+		System.out.println("\n===============맴버==================\n");
+		new SearchCommand(request).execute();
+		MemberBean memr=MemberServiceImpl.getInstance().login();
+		if(memr==null) {
+			System.out.println("login 널로 왔다");
+			session.invalidate();//세션 삭제
+			InitCommand.cmd.setDir("user");
+			InitCommand.cmd.setPage("login");
+			InitCommand.cmd.setView(
+					Action.VIEW.toString()+
+					InitCommand.cmd.getDir()+
+					Action.SEPARATOR+
+					InitCommand.cmd.getPage()+
+					Action.EXTENSION
+					);
+		}else {
+			session.setAttribute("user", memr);
+			new MoveCommand(request).execute();
+		}
+		System.out.println("MEMBER\n"+memr+"\nVIEW\n"+InitCommand.cmd.getView());
+		System.out.println("=========Member: Login OUT=============");
+		DispatcherServlet.send(request, response);
+	}
+
+
+	private void remove(HttpServletRequest request) {
+		new LeaveCommand(request).execute();;
+		MemberServiceImpl.getInstance().leave();
+	}
+
+
+	private void join(HttpServletRequest request) {
+		new JoinCommand(request).execute();
+		MemberServiceImpl.getInstance().memjoin();
+	}
+
+
+	private void change(HttpServletRequest request, HttpSession session) {
+		MemberBean bean;
+		bean=new MemberBean();
+		bean.setId(((MemberBean) session.getAttribute("user")).getId());
+		new SearchSessionCommand(request).execute();
+		MemberServiceImpl.getInstance().chage();
+		bean.setPass(InitCommand.cmd.getData().split("/")[2]);
+		session.setAttribute("user", bean);
+	}
+
+
 	private void move(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		new MoveCommand(request).execute();
-		
+		System.out.println(InitCommand.cmd.getView());
 		DispatcherServlet.send(request, response);
 	}
 

@@ -15,11 +15,10 @@ public class JoinCommand implements IOrder{
 	@Override
 	public void execute() {
 		System.out.println("========JoinCo execute=========");
-		System.out.println(map);
 		InitCommand.cmd.setColum("id,pass,name,ssn,phone,email,profile,addr");
+		System.out.println(SqlCommandFactory.sqlcreate(map));
 		InitCommand.cmd.setData(
-				SqlCommandFactory.sqlcreate(map)
-				/*String.format("%s/%s/%s/%s/%s/%s/%s/%s"
+				String.format("'%s','%s','%s','%s','%s','%s','%s','%s'"
 						,map.get("id")
 						,map.get("pass")
 						,map.get("name")
@@ -27,7 +26,7 @@ public class JoinCommand implements IOrder{
 						,map.get("phone1").toString().concat("-").concat(map.get("phone2").toString().concat("-").concat(map.get("phone3").toString()))
 						,map.get("email").toString().concat(map.get("url").toString())
 						,""
-						,map.get("addr"))*/
+						,map.get("addr"))
 				);
 		System.out.println("========조인커멘드 정보=========");
 		System.out.println(InitCommand.cmd.getColum());

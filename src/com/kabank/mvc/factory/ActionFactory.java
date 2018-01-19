@@ -22,6 +22,8 @@ public class ActionFactory {
 			action=Action.CREATEANUM;break;
 		case "TELECOM":
 			action=Action.TELECOM;break;
+		case "join":
+			action=Action.CREATEMOBILE;break;
 		default:
 			action=Action.MOVE;break;
 		}

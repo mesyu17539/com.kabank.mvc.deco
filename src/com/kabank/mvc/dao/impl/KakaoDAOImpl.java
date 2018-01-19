@@ -13,6 +13,7 @@ public class KakaoDAOImpl implements KakaoDAO{
 	public static KakaoDAOImpl getInstance() {
 		return new KakaoDAOImpl();
 	}
+	private KakaoDAOImpl() {}
 	@Override
 	public String SelectNum(String num) {
 		ResultSet set=null;

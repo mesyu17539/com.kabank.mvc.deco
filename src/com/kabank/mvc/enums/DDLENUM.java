@@ -34,16 +34,15 @@ public enum DDLENUM {
 					+")";
 		}
 	},
-	CREATE_TABLE_TELECOM(){
+	CREATE_TABLE_MOBILE(){
 		@Override
 		public String toString() {
-			return "create table TELECOM(" + 
-					"userid varchar2(20)," + 
+			return "create table MOBILE(" + 
+					"customer_Num varchar2(20) primary key," + 
+					"user_id varchar2(20)," + 
 					"phone varchar2(20)," + 
 					"regdate date," + 
-					"customer_Num varchar2(20) primary key," + 
-					"telecom varchar2(20)," + 
-					"foreign key(userid) references member(id) on delete cascade)"
+					"foreign key(user_id) references member(id) on delete cascade)"
 					;
 		}
 	},

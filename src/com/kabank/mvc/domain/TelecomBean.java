@@ -1,5 +1,8 @@
 package com.kabank.mvc.domain;
 
+import lombok.Data;
+
+@Data
 public class TelecomBean {
-	private String userid,phone,regdate,customer_num,telecom;
+	private String customerNum,userId,phone,regDate;
 }

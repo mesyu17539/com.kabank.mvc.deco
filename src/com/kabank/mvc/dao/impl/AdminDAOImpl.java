@@ -10,6 +10,10 @@ import com.kabank.mvc.enums.Vendor;
 import com.kabank.mvc.factory.DatabaseFactory;
 
 public class AdminDAOImpl implements AdminDAO{
+	public static AdminDAOImpl getInstance() {
+		return new AdminDAOImpl();
+	}
+	public AdminDAOImpl() {}
 
 	@Override
 	public void createMembers(String tname) {
@@ -25,8 +29,8 @@ public class AdminDAOImpl implements AdminDAO{
 				str=DDLENUM.CREATE_TABLE_BANK.toString();
 			}else if(tname.equalsIgnoreCase("MEMBER")) {
 				str=DDLENUM.CREATE_TABLE_MEMBER.toString();
-			}else if(tname.equalsIgnoreCase("TELECOM")) {
-			str=DDLENUM.CREATE_TABLE_TELECOM.toString();
+			}else if(tname.equalsIgnoreCase("MOBILE")) {
+			str=DDLENUM.CREATE_TABLE_MOBILE.toString();
 		}
 			
 			DatabaseFactory.create(Vendor.ORACLE)

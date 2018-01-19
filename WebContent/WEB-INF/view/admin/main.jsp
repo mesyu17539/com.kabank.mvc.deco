@@ -31,7 +31,7 @@
 									<option value="MEMBER">회원</option>
 									<option value="ATTEND">출석</option>
 									<option value="bank">통장 개설</option>
-									<option value="TELECOM">핸드폰 개통</option>
+									<option value="MOBILE">핸드폰 개통</option>
 								</select>
 								<button id="admin_button">테이블 생성</button>
 							</form>

@@ -6,12 +6,18 @@
 <h2> 마이페이지 </h2>
 <section>
 <table id="bitc_table">
-<tr>
-		<th rowspan="5" class="shema"><img src="${pageContext.request.contextPath}/resources/png/profile.png" alt="" /></th>
+	<tr>
+		<th rowspan="6" class="shema"><img src="${pageContext.request.contextPath}/resources/png/profile.png" alt="" /></th>
 		<th class="shema">ID</th>
 		<td>${sessionScope.user.id}</td>
 		<th class="shema">생년월일</th>
 		<td>${sessionScope.user.ssn}</td>
+	</tr>
+	<tr>
+		<th class="shema">전화번호</th>
+		<td>${sessionScope.user.mobile.phone}</td>
+		<th class="shema">가입일</th>
+		<td>${sessionScope.user.mobile.regDate}</td>
 	</tr>
 	<tr>
 		<th class="shema">비밀번호</th>
@@ -35,7 +41,7 @@
 		<th class="shema">회원번호</th>
 		<td>${sessionScope.user.account.customerNum}</td>
 		<th class="shema">ACCOUNT</th>
-		<td>${sessionScope.user.account.accountNum}<button id="createAccout">계좌생성</button></td>
+		<td>${sessionScope.user.account.accountNum}</td>
 	</tr>
 <tr><td colspan="5"><button id="bitcam_passbtn">비밀번호 변경</button> <button id="bitcam_leavebtn">탈퇴</button></td></tr>
 </table>
@@ -45,10 +51,6 @@
 <%@ include file="../common/foorter.jsp"%>
 </body>
 <script>
-document.querySelector('#createAccout').addEventListener('click',function(){
-	alert("카카오로 이동");
-	 location.href = "${ctx}/user.do?cmd=move&dir=kakao&page=main"; 
-},false);
 document.querySelector('#bitcam_passbtn').addEventListener("click",function () {
 	alert("비밀번호 변경 클릭");
 	location.href="${pageContext.request.contextPath}/user.do?cmd=move&dir=bitcamp&page=changePath"

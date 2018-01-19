@@ -8,12 +8,14 @@ import com.kabank.mvc.command.InitCommand;
 import com.kabank.mvc.command.SearchSessionCommand;
 import com.kabank.mvc.dao.MemberDAO;
 import com.kabank.mvc.decorate.ExcuteQuery;
+import com.kabank.mvc.domain.AccountBean;
 import com.kabank.mvc.domain.MemberBean;
 import com.kabank.mvc.enums.DMLENUM;
 import com.kabank.mvc.enums.TNameEnum;
 import com.kabank.mvc.enums.Vendor;
 import com.kabank.mvc.factory.DatabaseFactory;
 import com.kabank.mvc.factory.SqlFactory;
+import com.kabank.mvc.query.member.DeleteMemberQuery;
 import com.kabank.mvc.query.member.LoginQuery;
 import com.kabank.mvc.util.Enums;
 import com.kabank.mvc.util.MemberEnum;
@@ -233,46 +235,15 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 */
 	@Override
-	public MemberBean login() {
-		return (MemberBean) new ExcuteQuery(new LoginQuery()).execute();
-/*		System.out.println("===MEMBER.D: LOGIN IN===");
-		StringBuffer sql=new StringBuffer(MemberEnum.LOGIN.toString());
-		String[] arr=InitCommand.cmd.getData().split("/");
-		System.out.println("ID : "+arr[0]);
-		System.out.println("pass : "+arr[1]);
-		sql.replace(sql.indexOf("$"), sql.indexOf("$")+1, arr[0]);
-		sql.replace(sql.indexOf("@"), sql.indexOf("@")+1, arr[1]);
-		System.out.println("::SQL::"+sql.toString());
-		MemberBean member=null;
-		try {
-			ResultSet rs=DatabaseFactory.create(Vendor.ORACLE).getConnection().createStatement().executeQuery(sql.toString());
-			while(rs.next()) {
-				member =new MemberBean();
-				member.setId(rs.getString(MemberEnum.ID.toString()));
-				member.setPass(rs.getString(MemberEnum.PASS.toString()));
-				member.setName(rs.getString(MemberEnum.NAME.toString()));
-				member.setEmail(rs.getString(MemberEnum.EMAIL.toString()));
-				member.setAddr(rs.getString(MemberEnum.ADDR.toString()));
-				member.setPhone(rs.getString(MemberEnum.PHONE.toString()));
-				member.setSsn(rs.getString(MemberEnum.SSN.toString()));
-				member.setProfile(rs.getString(MemberEnum.PROFILE.toString()));
-			}
-			System.out.println("담긴 맴버 "+member);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return member;
-*/	}
-	@Override
-	public void chagePass(MemberBean bean) {
+	public void chagePass() {
 		// TODO Auto-generated method stub
 		StringBuffer sql=new StringBuffer(MemberEnum.CHANGEPASS.toString());
 		String[] arr=InitCommand.cmd.getData().split("/");
-		System.out.println("id : "+bean.getId());
+		System.out.println("DAO\nid : "+arr[0]);
 		System.out.println("pass : "+arr[1]);
 		System.out.println("newpass : "+arr[2]);
 		sql.replace(sql.indexOf("@"), sql.indexOf("@")+1, arr[2]);
-		sql.replace(sql.indexOf("$"), sql.indexOf("$")+1, bean.getId());
+		sql.replace(sql.indexOf("$"), sql.indexOf("$")+1, arr[0]);
 		sql.replace(sql.indexOf("&"), sql.indexOf("&")+1, arr[1]);
 		System.out.printf(
 		/*"내가 실행하려는 sQL : "+DMLENUM.UPDATE.toString()
@@ -297,7 +268,8 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public void deleteMember() {
 		// TODO Auto-generated method stub
-		StringBuffer sql=new StringBuffer(MemberEnum.MEMBERDELETE.toString());
+		System.out.println("딜리트 쿼리 결과 : "+new ExcuteQuery(new DeleteMemberQuery()).execute());
+		/*StringBuffer sql=new StringBuffer(MemberEnum.MEMBERDELETE.toString());
 		sql.replace(sql.indexOf("@"), sql.indexOf("@")+1,InitCommand.cmd.getData().split("/")[0]);
 		System.out.println("dele sql"+sql.toString());
 		try {
@@ -305,13 +277,13 @@ public class MemberDAOImpl implements MemberDAO{
 					.getConnection()
 					.createStatement()
 					.executeUpdate(sql.toString());
-					/*(String.format(DMLENUM.UPDATE.toString()
+					(String.format(DMLENUM.UPDATE.toString()
 						+Enums.TABLE.MEMBER.toString()
 						+DMLENUM.SET.toString()
-						,bean.getPass(),bean.getId()));*/
+						,bean.getPass(),bean.getId()));
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	@Override
 	public void memJoin() {

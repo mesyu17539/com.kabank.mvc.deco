@@ -26,29 +26,30 @@ public class LoginQuery implements IQuery{
 			.getConnection().prepareStatement(
 					DML.SELECT
 					+" "
-					+"b.customer_Num as customer_Num," + 
-					"m.id as id," + 
-					"m.pass as pass," + 
-					"m.name as name," + 
-					"m.phone as phone," + 
-					"m.email as email," + 
-					"m.profile as profile," + 
-					"m.addr as addr," + 
-					"b.account_Num as account_Num," + 
-					"b.money as money "
+					+"customer_Num as customer_Num," + 
+					"account_Num as account_Num," + 
+					"money as money "
 					+" "
 					+DML.FROM
 					+" "
-					+TABLE.MEMBER+" m,"+TABLE.BANK+" b"
+					+TABLE.BANK
 					+" "
 					+DML.WHERE
-					+" m.id LIKE ? AND m.pass LIKE ? AND m.id LIKE b.id");
-			System.out.println("이닛 데이터"+InitCommand.cmd.getData());
-			String[] arr = InitCommand.cmd.getData().split("/");
-			for(int i = 0; i < arr.length; i++) {
-				System.out.println("for"+arr[i]);
-				pstmt.setString((i+1), arr[i]);
-			}
+					+" id LIKE ?");
+				pstmt.setString(1, InitCommand.cmd.getData().split("/")[0]);
+				System.out.println(DML.SELECT
+						+" "
+						+"customer_Num as customer_Num," + 
+						"account_Num as account_Num," + 
+						"money as money "
+						+" "
+						+DML.FROM
+						+" "
+						+TABLE.BANK
+						+" "
+						+DML.WHERE
+						+" "
+						+"id LIKE "+InitCommand.cmd.getData().split("/")[0]);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,7 +58,6 @@ public class LoginQuery implements IQuery{
 	}
 	@Override
 	public Object execute() {
-		MemberBean member=null;
 		AccountBean account=null;
 		try {
 			System.out.println("===MEMBER.D: LOGIN IN===");
@@ -66,29 +66,17 @@ public class LoginQuery implements IQuery{
 			ResultSet rs=pstmt.executeQuery();	
 			while(rs.next()) {
 				System.out.println("while");
-				member =new MemberBean();
 				account =new AccountBean();
-				member.setId(rs.getString(MemberEnum.ID.toString()));
-				System.out.println("id"+member.getId());
-				member.setPass(rs.getString(MemberEnum.PASS.toString()));
-				member.setName(rs.getString(MemberEnum.NAME.toString()));
-				member.setEmail(rs.getString(MemberEnum.EMAIL.toString()));
-				member.setAddr(rs.getString(MemberEnum.ADDR.toString()));
-				member.setPhone("T");
-				member.setProfile("T");
-				member.setSsn("T");
-/*				member.setPhone(rs.getString(MemberEnum.PHONE.toString()));
-				member.setProfile(rs.getString(MemberEnum.PROFILE.toString()));
-				member.setSsn(rs.getString(MemberEnum.SSN.toString()));*/
 				account.setAccountNum(rs.getString(AccountProps.ACCOUNT_NUM.toString()));
+				System.out.println("acc"+account.getAccountNum());
 				account.setCustomerNum(rs.getString(AccountProps.CUSTOMER_NUM.toString()));
+				System.out.println("Cust"+account.getCustomerNum());
 				account.setMoney(rs.getString(AccountProps.MONEY.toString()));
 				System.out.println(account);
-				member.setAccount(account);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return member;
+		return account;
 	}
 }

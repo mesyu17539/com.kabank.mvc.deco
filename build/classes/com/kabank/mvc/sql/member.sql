@@ -5,23 +5,44 @@ customer_Num varchar2(20) primary key,
 account_Num varchar2(20) not null,
 money varchar2(20) default 0,
 id varchar2(20) ,
-foreign key(id) references member(id) on delete cascade);
+foreign key(id) references member(id)
+on delete cascade);
+on delete cascade 한 이유는 참조한 녀석도 같이 알아서 삭제하려고한것
 
+SELECT b.CUSTOMER_NUM as CUSTOMER_NUM,b.PHONE as PHONE,b.REGDATE as REGDATE
+FROM MEMBER m, MOBILE b WHEREm.id LIKE 'sangwoo' AND m.pass LIKE 12 AND m.id LIKE b.USER_ID
+SELECT b.CUSTOMER_NUM as CUSTOMER_NUM,b.PHONE as PHONE,b.REGDATE as REGDATE 
+FROM MEMBER m, MOBILE b 
+WHERE m.id LIKE 'sangwoo' AND m.pass LIKE 12 AND m.id LIKE b.USER_ID;
 
-drop table bank;
+create table MOBILE(customer_Num varchar2(20) primary key,user_id varchar2(20),phone varchar2(20),regdate date,foreign key(user_id) references member(id) on delete cascade);
+INSERT INTO MOBILE(CUSTOMER_NUM,USER_ID,PHONE,REGDATE) VALUES(customer_Num.nextval,'sangwoo','010-8070-1226',sysdate)
+INSERT INTO MOBILE(CUSTOMER_NUM,USER_ID,PHONE,REGDATE) VALUES(customer_Num.nextval,'sangwoo','010-8070-1226',sysdate)
+select * from mobile;
+
+SELECT CUSTOMER_NUM as CUSTOMER_NUM,PHONE as PHONE,REGDATE as REGDATE FROM MOBILE WHERE user_id LIKE 'sangwoo'
+
+select * from tab;
+select * from bank;
+select * from MEMBER;
+INSERT INTO MOBILE(CUSTOMER_NUM,USER_ID,PHONE,REGDATE) VALUES(customer_Num.nextval,'sangwoo','010-2285-3586',sysdate);
+INSERT INTO BANK(customer_Num,account_Num,money,id) VALUES(customer_Num.nextval,'2234-1234','1','sangwoo')
+
+drop table MEMBER;
+drop table MOBILE;
 drop sequence customer_Num;
 
-INSERT INTO BANK(customer_Num,account_Num,money,id) VALUES(customer_Num.nextval,'2234-1234','1','sangwoo')
+
 INSERT INTO BANK(customer_Num,id) VALUES(customer_Num.nextval,'sangwoo')
 
 toad 전용
 desc member;
 desc bank;
 
-select * from tab;
-select * from bank;
-select * from MEMBER;
 
+DELETE FROM MEMBER WHERE id LIKE sangwoo1 AND pass LIKE 12
+DELETE FROM MEMBER WHERE id LIKE sis;
+ OR id LIKE 111 OR id LIKE sis OR id LIKE sya
 관계대수 릴레이션 알고리즘이다
 select 
 	b.customer_Num as 고객번호,
@@ -32,6 +53,7 @@ select
 	m.email as 이메일,
 	m.profile as 프로필,
 	m.addr as 주소,
+	m.ssn as 주민번호,
 	b.account_Num as 계좌번호,
 	b.money as 계좌금액 
 from member m, bank b 

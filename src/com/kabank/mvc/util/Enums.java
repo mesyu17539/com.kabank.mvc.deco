@@ -8,10 +8,10 @@ public class Enums {
 		ID, PASS, NAME
 	}
 	public enum TABLE{
-		MEMBER,ATTEND,ADMIN,BANK
+		MEMBER,ATTEND,ADMIN,BANK,MOBILE
 	}
 	public enum DML{
-		SELECT,INSERT,INTO,UPDATE,DELETE,FROM,WHERE
+		SELECT,INSERT,INTO,UPDATE,DELETE,FROM,WHERE,VALUES
 	}
 	public static String getEnu() {
 		String enu="";
